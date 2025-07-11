@@ -1,4 +1,3 @@
 conda create -n roop python=3.9 -y
-conda activate roop
-conda install cudatoolkit=11.8 nccl cudnn
-pip install -r requirements.txt
+conda run -n roop conda install cudatoolkit=11.8 nccl cudnn
+conda run -n roop pip install -r requirements.txt
