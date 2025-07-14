@@ -27,6 +27,14 @@ Start the program with arguments:
 
 ```
 python run.py [options]
+```
+## For multiface swap
+
+```
+python run.py --many-faces --source PATH1 PATH2 --target TARGET_PATH --output ./result.jpg
+```
+
+```
 
 -h, --help                                                                 show this help message and exit
 -s SOURCE_PATH, --source SOURCE_PATH                                       select an source image

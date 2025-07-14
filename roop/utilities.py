@@ -84,12 +84,15 @@ def get_temp_output_path(target_path: str) -> str:
     return os.path.join(temp_directory_path, TEMP_VIDEO_FILE)
 
 
-def normalize_output_path(source_path: str, target_path: str, output_path: str) -> Optional[str]:
-    if source_path and target_path and output_path:
+def normalize_output_path(source_path, target_path, output_path):
+    # If source_path is a list, use the first item for naming
+    if isinstance(source_path, list):
+        source_name, _ = os.path.splitext(os.path.basename(source_path[0]))
+    else:
         source_name, _ = os.path.splitext(os.path.basename(source_path))
-        target_name, target_extension = os.path.splitext(os.path.basename(target_path))
-        if os.path.isdir(output_path):
-            return os.path.join(output_path, source_name + '-' + target_name + target_extension)
+    target_name, _ = os.path.splitext(os.path.basename(target_path))
+    if output_path is None:
+        return f'{source_name}_to_{target_name}.jpg'
     return output_path
 
 
@@ -119,7 +122,9 @@ def has_image_extension(image_path: str) -> bool:
     return image_path.lower().endswith(('png', 'jpg', 'jpeg', 'webp'))
 
 
-def is_image(image_path: str) -> bool:
+def is_image(image_path):
+    if isinstance(image_path, list):
+        return all(is_image(p) for p in image_path)
     if image_path and os.path.isfile(image_path):
         mimetype, _ = mimetypes.guess_type(image_path)
         return bool(mimetype and mimetype.startswith('image/'))
